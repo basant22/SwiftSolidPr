@@ -7,10 +7,13 @@
 
 import SwiftUI
 struct PatientRowView: View {
-    let patient: PatientRecord
-    
+    @Binding var patient: PatientRecord
+    var viewModal:PatientViewModal
+   // @Binding var isFavorite:Bool
     var body: some View {
-        NavigationLink(destination: Text("Details for \(patient.fullName)")) {
+       // PDetail(viewModal: viewModal,patientId: patient.id)
+        //PatientDetailView(patientId: patient.id, viewModal: viewModal)
+        NavigationLink(destination: PatientDetailView(patientId: patient.id, viewModal: viewModal)) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(patient.fullName)
                     .fontWeight(.medium)
@@ -22,6 +25,12 @@ struct PatientRowView: View {
                 Text(patient.doctorName)
                     .font(.caption)
                     .foregroundColor(.secondary)
+                HStack{
+                    Spacer()
+                    Toggle("Favorite", isOn: $patient.isFavorite)
+                        .toggleStyle(.switch)
+                        .tint(.green)
+                }
             }
             .padding(.vertical, 15)
             .padding(.horizontal, 20)

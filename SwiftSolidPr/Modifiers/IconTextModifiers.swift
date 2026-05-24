@@ -32,7 +32,8 @@ struct IconTextModifiers:ViewModifier {
             }
         }
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(
+                cornerRadius: 12)
                 .stroke(Color.black,lineWidth: 1.0)
         )
     }

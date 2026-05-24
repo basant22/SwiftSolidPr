@@ -9,29 +9,8 @@ import SwiftUI
 
 struct PatientList: View {
     @StateObject private var viewModel:PatientViewModal = PatientViewModal(repo: PatientRepo.defaultRepo)
-    
-    func loadPatints(_ patient:PatientRecord)-> some View{
-        NavigationLink(destination:Text("Hello")){
-            VStack(alignment:.leading){
-                Text(patient.fullName)
-                    .fontWeight(.medium)
-                Text("\(patient.wardNumber) \(patient.bed)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                Text(patient.doctorName)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            .frame(maxWidth:.infinity)
-            .padding(.vertical,15)
-            .background(RoundedRectangle(cornerRadius: 12.0, style: .continuous)
-                            .fill(Color.cyan)
-                            
-            )
-        }
-        .buttonStyle(.plain) // Remove the default blue text color/opacity
-        .padding(.horizontal)
-    }
+    @State private var isFavorite:Bool = false
+   
     var filterPatient:[PatientRecord]{
         if viewModel.searchText.isEmpty{
             return viewModel.patients
@@ -41,31 +20,38 @@ struct PatientList: View {
             return viewModel.searchedPatients
         }
     }
-    var loadingView:some View{
-        VStack(){
-            ProgressView()
-                .scaleEffect(1.5)
-            Text("Loading Patient Text..")
-                .foregroundColor(.gray)
-                .padding(.top,10)
-        }
-        
-        .frame(maxWidth:.infinity)
-        .padding(.vertical,40)
-        
-        
-    }
+    
     var body: some View {
-        VStack{
-        if viewModel.isLoading{
-            self.loadingView
-            
-        }else{
-          
+        ZStack{
+            VStack{
+            if viewModel.isLoading{
+                SpinnerView()
+            }else if viewModel.patients.count == 0{
+                VStack{
+                    Button {
+                        Task{
+                            if(viewModel.patients.isEmpty){
+                                await loadPatients()
+                            }
+                        }
+                    } label: {
+                        VStack{
+                            Text("Failed to load patient list. Please try again.")
+                                .font(.headline)
+                            Image(systemName:"exclamationmark.square.fill")
+                                .font(.system(size: 50))
+                            //                            .foregroundColor(.green)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    
+                    
+                }
+            }else if viewModel.searchedPatients.count > 0 {
                 ScrollView(showsIndicators: false){
                     LazyVStack(spacing: 16){
-                        ForEach(filterPatient){ patient in
-                           PatientRowView(patient: patient)
+                        ForEach($viewModel.searchedPatients){ $patient in
+                            PatientRowView(patient: $patient, viewModal: self.viewModel)
                         }
                     }
                 }
@@ -76,16 +62,37 @@ struct PatientList: View {
                 //                }
                 //                .listStyle(.insetGrouped)
                 //                .navigationBarTitleDisplayMode(.large)
-            
-            .searchable(text: $viewModel.searchText,placement:.navigationBarDrawer(displayMode: .always))
-           
-        }
-        }
-        .task {
-            if(viewModel.patients.isEmpty){
-                await loadPatients()
+                
+                .searchable(text: $viewModel.searchText,placement:.navigationBarDrawer(displayMode: .always))
+                
+            }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar{
+                ToolbarItem(placement:.principal){
+                    Text("Patient List")
+                        .font(.headline)
+                }
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button(action:{
+                        Task {
+                            await loadPatients()
+                        }
+                    }){
+                        Image(systemName: "arrow.clockwise")
+                            .foregroundColor(.blue)
+                    }
+                }
+                
+            }
+            .task {
+                if(viewModel.patients.isEmpty){
+                    await loadPatients()
+                }
             }
         }
+       
     }
     func loadPatients()async{
         await viewModel.getPatient(request: PatientReq(take: 10, skip: 0))
@@ -96,4 +103,19 @@ struct PatientList_Previews: PreviewProvider {
     static var previews: some View {
         PatientList()
     }
+}
+
+struct PDetail:UIViewControllerRepresentable{
+    typealias UIViewControllerType = UIViewController
+    let viewModal:PatientViewModal
+    let patientId:Int
+    func makeUIViewController(context: Context) -> UIViewController {
+        let vc = PatientDetailVC(viewModal: viewModal,patientId: patientId)
+        return vc
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        
+    }
+    
 }

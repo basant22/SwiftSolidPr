@@ -10,13 +10,17 @@ protocol PatientURLRequestBuilder{
     func makeGetPatientRequest(take:Int,skip:Int)->URLRequest?
     func makeGetPatientSearchRequest(patintName:String)->URLRequest?
     func makeGetPatientDetailRequest(patintId:Int)->URLRequest?
+    
     func makeGetPatientReportRequest(patintId:Int)->URLRequest?
     func downloadReport(url:URL)->URLRequest?
 }
 final class  PatientURLRequest:PatientURLRequestBuilder{
-   private let baseURl:URL
+    private let baseURl:URL
+    private let token = TokenStore()
+   // let intercepter:RequestInterceptor
     init(baseURL:URL  = URL(string: "https://api-dev-patient-portal.azurewebsites.net/api/")!){
         self.baseURl = baseURL
+      //  self.intercepter = intercepter
     }
     func makeGetPatientRequest(take:Int,skip:Int)->URLRequest?{
         let completeUrl = baseURl.appendingPathComponent("Patients")
@@ -27,6 +31,9 @@ final class  PatientURLRequest:PatientURLRequestBuilder{
         ]
         guard let url = component?.url else {return nil}
         var request = URLRequest(url: url)
+//        let token = try await token.validToken()
+//        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.timeoutInterval = 2
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         return request

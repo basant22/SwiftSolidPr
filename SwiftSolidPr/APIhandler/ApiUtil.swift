@@ -20,6 +20,7 @@ enum NetworkError:Error{
     case invalidRequest
     case unauthorized
     case decodingFailed
+    case timeOut
     case serverError(String)
     case unknown(Error)
 }

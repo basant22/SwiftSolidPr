@@ -3,4 +3,66 @@
    uuid = "B6943651-B91A-4AA1-9E16-72C4B45C01EA"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            uuid = "2BB80175-FCE0-4811-86B1-BCC88FA0340C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1"
+            scope = "1"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "05B4F38E-798C-493E-B68B-47CC6DDB2823"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwiftSolidPr/CacheImage/LoadImageViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "loadImage(url:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "05B4F38E-798C-493E-B68B-47CC6DDB2823 - 6bbb39e0fd87fc91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwiftSolidPr.GalleryViewModel.loadImage(url: Foundation.URL) async throws -&gt; ()"
+                  moduleName = "SwiftSolidPr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/SwiftSolidPr/SwiftSolidPr/CacheImage/LoadImageViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "37"
+                  endingLineNumber = "37"
+                  offsetFromSymbolStart = "406">
+               </Location>
+               <Location
+                  uuid = "05B4F38E-798C-493E-B68B-47CC6DDB2823 - 9af5ade09c073ef5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for SwiftSolidPr.GalleryViewModel.loadImage(url: Foundation.URL) async throws -&gt; ()"
+                  moduleName = "SwiftSolidPr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/SwiftSolidPr/SwiftSolidPr/CacheImage/LoadImageViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "37"
+                  endingLineNumber = "37"
+                  offsetFromSymbolStart = "230">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

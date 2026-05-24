@@ -11,19 +11,28 @@ import SwiftUI
 struct BorderStyle:ViewModifier{
     func body(content: Content) -> some View {
         content
-            .padding()
+            .padding(.horizontal)
             .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(
+                cornerRadius: 12)
                 .stroke(Color.black,lineWidth: 1.0)
             )
             .frame(height: 54)
     }
 }
 extension View{
-    func blackBorder() -> some View{
-        self.modifier(BorderStyle())
+    func standardFieldStyle() -> some View {
+        self
+            .padding(.horizontal)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.black, lineWidth: 1.0)
+            )
     }
-    func textIcon(systemImage:String? = "",isSecure:Bool? = false,isVisible:Binding<Bool>)-> some View{
-        self.modifier(IconTextModifiers(systemImage: systemImage,isSecureFields: isSecure, isVisible: isVisible))
+        func blackBorder() -> some View{
+            self.modifier(BorderStyle())
+        }
+        func textIcon(systemImage:String? = "",isSecure:Bool? = false,isVisible:Binding<Bool>)-> some View{
+            self.modifier(IconTextModifiers(systemImage: systemImage,isSecureFields: isSecure, isVisible: isVisible))
+        }
     }
-}

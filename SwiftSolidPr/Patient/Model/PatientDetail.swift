@@ -7,39 +7,37 @@
 
 import Foundation
 
-struct PatientDetail: Decodable {
+struct PatientDetail: Codable {
     let id: Int
-    let mrn: String
-    let fullName: String
+    let mrn, fullName: String
     let age: Int
     let sex: String
     let ward: Ward
-    let treatingDoctor: Doctor
-    let conditions: [String]
-    let symptoms: [String]
+    let treatingDoctor: TreatingDoctor
+    let conditions, symptoms: [String]
     let medications: [Medication]
-    let lastUpdatedUtc: Date
-}
+    let lastUpdatedUTC: Date
 
-// MARK: - Ward
-struct Ward: Decodable {
-    let name: String
-    let number: String
-    let bed: String
-}
-
-// MARK: - Doctor
-struct Doctor: Decodable {
-    let name: String
-    let specialty: String
+    enum CodingKeys: String, CodingKey {
+        case id, mrn, fullName, age, sex, ward, treatingDoctor, conditions, symptoms, medications
+        case lastUpdatedUTC = "lastUpdatedUtc"
+    }
 }
 
 // MARK: - Medication
-struct Medication: Decodable, Identifiable {
-    let name: String
-    let dose: String
-    let frequency: String
+struct Medication: Codable,Identifiable {
+    let name, dose, frequency: String
+    var id :String{
+        return("\(name)-\(dose)-\(frequency)")
+    }
+}
 
-    // Convenience ID for table diffing if needed
-    var id: String { "\(name)-\(dose)-\(frequency)" }
+// MARK: - TreatingDoctor
+struct TreatingDoctor: Codable {
+    let name, specialty: String
+}
+
+// MARK: - Ward
+struct Ward: Codable {
+    let name, number, bed: String
 }
